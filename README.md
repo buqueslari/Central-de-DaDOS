@@ -12,7 +12,7 @@ Os numeros sao tratados como **texto**. Isso preserva zeros iniciais e evita a p
 ## O que esta pronto
 
 - `POST /api/submit`: recebe e valida os quatro campos.
-- CORS: aceita apenas os dominios configurados.
+- CORS: aceita requisicoes de qualquer origem.
 - Limite: ate 10 tentativas por minuto por IP anonimizado.
 - Supabase Auth: login por email e senha.
 - Row Level Security: somente usuarios cadastrados como administradores acessam os dados.
@@ -90,7 +90,6 @@ O painel pode ser um projeto Vercel separado do seu frontend atual.
 | `VITE_SUPABASE_ANON_KEY` | chave `anon` |
 | `SUPABASE_URL` | a mesma Project URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | chave `service_role` |
-| `ALLOWED_ORIGINS` | URL do frontend que possui o formulario |
 | `SUBMISSION_RATE_LIMIT_SALT` | segredo aleatorio com pelo menos 24 caracteres |
 
 Nao configure `VITE_PREVIEW_MODE` na Vercel.
@@ -101,20 +100,8 @@ Para criar o salt no PowerShell:
 [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLower()
 ```
 
-Exemplo de origem permitida:
-
-```text
-https://www.meusite.com.br
-```
-
-Para mais de um dominio, separe por virgula e nao coloque `/` no final:
-
-```text
-https://www.meusite.com.br,https://meusite.com.br
-```
-
-7. Clique em **Deploy**.
-8. Copie a URL gerada, por exemplo `https://central-de-dados.vercel.app`.
+6. Clique em **Deploy**.
+7. Copie a URL gerada, por exemplo `https://central-de-dados.vercel.app`.
 
 ## 5. Conectar o formulario que ja existe
 
@@ -205,7 +192,7 @@ Novos registros aparecem automaticamente quando o Realtime do Supabase esta ativ
 
 ## 8. Teste completo antes de divulgar
 
-1. Abra o formulario pelo dominio real configurado em `ALLOWED_ORIGINS`.
+1. Abra o formulario pelo dominio real.
 2. Digite um nome.
 3. Digite exatamente 16, 4 e 3 digitos.
 4. Inclua zeros iniciais em um teste, por exemplo `0012345678901234`, `0032` e `007`.
@@ -236,10 +223,6 @@ VITE_PREVIEW_MODE=true
 Esse modo so funciona durante `vite dev` e e desativado automaticamente no build de producao.
 
 ## Erros comuns
-
-### `403 Origem nao autorizada`
-
-O dominio aberto no navegador nao esta em `ALLOWED_ORIGINS`. Corrija a variavel na Vercel e faca um novo deploy.
 
 ### `400 Dados invalidos`
 

@@ -6,14 +6,10 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse,
 ) {
-  const originAllowed = applyCors(request, response);
+  applyCors(response);
 
   if (request.method === "OPTIONS") {
-    return response.status(originAllowed ? 204 : 403).end();
-  }
-
-  if (!originAllowed) {
-    return response.status(403).json({ error: "Origem nao autorizada." });
+    return response.status(204).end();
   }
 
   if (request.method !== "GET") {
