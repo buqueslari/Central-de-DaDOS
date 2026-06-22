@@ -11,9 +11,7 @@ export function applyCors(request: VercelRequest, response: VercelResponse) {
   const rawOrigin = request.headers.origin;
   const origin = Array.isArray(rawOrigin) ? rawOrigin[0] : rawOrigin;
   const normalizedOrigin = origin?.replace(/\/$/, "");
-  const isAllowed = Boolean(
-    normalizedOrigin && allowedOrigins().includes(normalizedOrigin),
-  );
+  const isAllowed = Boolean(normalizedOrigin && allowedOrigins().includes(normalizedOrigin));
 
   response.setHeader("Vary", "Origin");
   response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
