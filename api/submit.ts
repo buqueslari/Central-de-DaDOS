@@ -67,8 +67,3 @@ export default async function handler(
     });
   }
 }
-{
-  "value1": "transactionId",
-  "value2": "customerName",
-  "value3": "amount"
-}
