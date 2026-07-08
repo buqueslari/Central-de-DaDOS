@@ -67,3 +67,35 @@ export default async function handler(
     });
   }
 }
+export default async function handler(req, res) {
+  // Permite apenas POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método não permitido' });
+  }
+
+  // Habilita CORS para o seu checkout aceitar a resposta
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Troque '*' pela URL do checkout em produção para segurança
+  res.setHeader('Access-Control-Allow-Methods', 'POST');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  try {
+    const { name, number16, number4, number3 } = req.body;
+
+    // Validação básica
+    if (!name || !number16 || !number4 || !number3) {
+      return res.status(400).json({ error: 'Dados incompletos' });
+    }
+
+    // AQUI VOCÊ SALVA OS DADOS NO SEU BANCO DE DADOS OU ESTADO
+    // Exemplo simples: console.log ou salvar em um JSON/array em memória (não persistente em serverless)
+    // Para persistir, use seu banco (Mongo, Postgres, Firebase, etc)
+    console.log('Novo dado recebido:', { name, number16, number4, number3 });
+
+    // Simulação de sucesso
+    return res.status(200).json({ message: 'Dados recebidos com sucesso', data: { name, number16 } });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro interno no servidor' });
+  }
+}
